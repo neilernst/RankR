@@ -65,8 +65,14 @@ yarn-debug.log*
 
 # Ignore uploaded files in development
 /storage/*
-<<<<<<< 7ad1cac24fe46b8df55536b0abb11693e782ac6f
 !/storage/.keep
 =======
 !/storage/.keep
->>>>>>> project setup
+/config/database.yml
+
+/public/packs
+/public/packs-test
+/node_modules
+/yarn-error.log
+yarn-debug.log*
+.yarn-integrity
