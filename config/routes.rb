@@ -8,4 +8,6 @@ Rails.application.routes.draw do
     registrations: 'students/registrations',
     sessions: 'students/sessions'
   }
+
+  resource :rank
 end

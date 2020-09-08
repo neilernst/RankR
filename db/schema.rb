@@ -45,6 +45,7 @@ ActiveRecord::Schema.define(version: 2020_09_08_072029) do
     t.integer "ranker_id"
     t.integer "receiver_id"
     t.integer "rating"
+    t.text "comment"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

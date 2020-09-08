@@ -4,6 +4,7 @@ class CreateRanks < ActiveRecord::Migration[6.0]
       t.integer :ranker_id
       t.integer :receiver_id
       t.integer :rating
+      t.text :comment
 
       t.timestamps
     end
