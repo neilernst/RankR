@@ -17,6 +17,7 @@ class DeviseCreateStudents < ActiveRecord::Migration[6.0]
 
       t.string :student_id, null: false
       t.string :name
+      t.string :github_id
 
 
       ## Trackable

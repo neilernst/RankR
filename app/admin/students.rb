@@ -5,12 +5,12 @@ ActiveAdmin.register Student do
   #
   # Uncomment all parameters which should be permitted for assignment
   #
-  # permit_params :team_id, :email, :encrypted_password, :reset_password_token, :reset_password_sent_at, :remember_created_at, :student_id, :name
+  # permit_params :team_id, :email, :encrypted_password, :reset_password_token, :reset_password_sent_at, :remember_created_at, :student_id, :name, :github_id
   #
   # or
   #
   # permit_params do
-  #   permitted = [:team_id, :email, :encrypted_password, :reset_password_token, :reset_password_sent_at, :remember_created_at, :student_id, :name]
+  #   permitted = [:team_id, :email, :encrypted_password, :reset_password_token, :reset_password_sent_at, :remember_created_at, :student_id, :name, :github_id]
   #   permitted << :other if params[:action] == 'create' && current_user.admin?
   #   permitted
   # end

@@ -50,6 +50,7 @@ ActiveRecord::Schema.define(version: 2020_09_08_032410) do
     t.datetime "remember_created_at"
     t.string "student_id", null: false
     t.string "name"
+    t.string "github_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["email"], name: "index_students_on_email", unique: true
