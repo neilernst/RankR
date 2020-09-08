@@ -1,18 +1,13 @@
 ActiveAdmin.register Team do
 
-  # See permitted parameters documentation:
-  # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
-  #
-  # Uncomment all parameters which should be permitted for assignment
-  #
-  # permit_params :team_id, :team_name
-  #
-  # or
-  #
-  # permit_params do
-  #   permitted = [:team_id, :team_name]
-  #   permitted << :other if params[:action] == 'create' && current_user.admin?
-  #   permitted
-  # end
+  permit_params :team_id, :team_name
+
+  form do |f|
+    f.inputs do
+      f.input :team_id, label: 'Team Id'
+      f.input :team_name, label: 'Team Name'
+    end
+    f.actions
+  end
   
 end
