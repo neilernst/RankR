@@ -1,6 +1,14 @@
 -# - @team_members.each do |member|
 -#     %p= member.name
 
-- @ranks.each do |rank|
-    %p= rank.ranker_id
-    %p= rank.receiver_id
+-# - @ranks.each do |rank|
+-#     %p= rank.ranker_id
+-#     %p= rank.receiver_id
+
+.center
+    = form_tag rank_path(method: :post) do
+        - @ranks.each do |rank|
+            = fields_for 'ranks[]', rank, include_id: false do |f|
+                = f.label :receiver_id, value: "#{@team_members.find_by_id(rank.receiver_id).name}"
+                = f.text_field method, {}
+   
