@@ -10,6 +10,6 @@ Rails.application.routes.draw do
   }
 
   resources :assignments, only: [:index] do
-    resources :ranks 
+    resources :ranks, only: [:index, :new, :create] 
   end
 end
