@@ -8,4 +8,8 @@ class Student < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
+
+  def has_already_ranked_for(assignment_id)
+    self.authored_ranks.where(assignment_id: assignment_id).exists?
+  end
 end

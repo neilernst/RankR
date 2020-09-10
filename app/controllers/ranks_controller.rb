@@ -8,6 +8,9 @@ class RanksController < ApplicationController
     end
 
     def new
+        if current_student.has_already_ranked_for(params[:assignment_id])
+            redirect_to assignment_ranks_path(params[:assignment_id])
+        end
         @team_members = current_student.team.students
         @assignment = Assignment.find(params[:assignment_id])
         @ranks = []
