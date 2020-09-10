@@ -9,5 +9,7 @@ Rails.application.routes.draw do
     sessions: 'students/sessions'
   }
 
-  resource :rank
+  resources :assignments, only: [:index] do
+    resources :ranks 
+  end
 end

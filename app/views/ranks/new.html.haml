@@ -1,6 +1,8 @@
 .center
-    = form_tag rank_path(method: :post) do
+    = form_tag assignment_ranks_path(method: :post) do
+        = hidden_field_tag "ranks[assignment_id]", @assignment.id 
         - @ranks.each do |rank|
             = label_tag @team_members.find(rank.receiver_id).name
-            = text_field_tag "ranks[#{rank.receiver_id}]" 
+            = text_field_tag "ranks[ratings][#{rank.receiver_id}]"
+            %br
         = submit_tag 'Submit'

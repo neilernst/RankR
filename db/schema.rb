@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_08_072029) do
+ActiveRecord::Schema.define(version: 2020_09_09_224755) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,13 +41,25 @@ ActiveRecord::Schema.define(version: 2020_09_08_072029) do
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
 
+  create_table "assignments", force: :cascade do |t|
+    t.string "year"
+    t.string "course"
+    t.string "name"
+    t.integer "status"
+    t.datetime "deadline"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "ranks", force: :cascade do |t|
+    t.bigint "assignment_id"
     t.integer "ranker_id"
     t.integer "receiver_id"
     t.integer "rating"
     t.text "comment"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["assignment_id"], name: "index_ranks_on_assignment_id"
   end
 
   create_table "students", force: :cascade do |t|

@@ -1,26 +1,29 @@
 class RanksController < ApplicationController
     before_action :authenticate_student!
 
-    def show
+    def index
         @team_members = current_student.team.students
         @given_ranks = Rank.where(ranker_id: current_student.id)
+        @assignment = Assignment.find(params[:assignment_id])
     end
 
     def new
         @team_members = current_student.team.students
-        print @team_members
+        @assignment = Assignment.find(params[:assignment_id])
         @ranks = []
         @team_members.each do |team_member|
-            @ranks << Rank.new(ranker_id: current_student.id, receiver_id: team_member.id)
+            @ranks << @assignment.ranks.new(ranker_id: current_student.id, receiver_id: team_member.id)
         end
     end
 
     def create
         @params = ranks_params
-        @params.each do |receiver_id, rank|
-            Rank.create(ranker_id: current_student.id, receiver_id: receiver_id, rating: rank)
+        puts "----------------------------------------"
+        puts @params[:assignment_id]
+        @params[:ratings].each do |receiver_id, rank|
+            Rank.create(assignment_id: @params[:assignment_id], ranker_id: current_student.id, receiver_id: receiver_id, rating: rank)
         end
-        redirect_to rank_path
+        redirect_to assignment_ranks_path(@params[:assignment_id])
     end
 
     private
