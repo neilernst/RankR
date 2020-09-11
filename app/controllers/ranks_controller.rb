@@ -29,7 +29,7 @@ class RanksController < ApplicationController
                 assignment_id: @params[:assignment_id], 
                 ranker_id: current_student.id,
                 receiver_id: receiver_id, 
-                rating: rank, 
+                rating: rank.to_i, 
                 comment: @params[:comments][receiver_id]
             )
         end
