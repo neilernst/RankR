@@ -15,15 +15,23 @@ class RanksController < ApplicationController
         @assignment = Assignment.find(params[:assignment_id])
         @ranks = []
         @team_members.each do |team_member|
-            @ranks << @assignment.ranks.new(ranker_id: current_student.id, receiver_id: team_member.id)
+            @ranks << @assignment.ranks.new(
+                ranker_id: current_student.id, 
+                receiver_id: team_member.id
+            )
         end
     end
 
     def create
         @params = ranks_params
         @params[:ratings].each do |receiver_id, rank|
-            Rank.create(assignment_id: @params[:assignment_id], ranker_id: current_student.id,
-            receiver_id: receiver_id, rating: rank, comment: @params[:comments][receiver_id])
+            Rank.create(
+                assignment_id: @params[:assignment_id], 
+                ranker_id: current_student.id,
+                receiver_id: receiver_id, 
+                rating: rank, 
+                comment: @params[:comments][receiver_id]
+            )
         end
         redirect_to assignment_ranks_path(@params[:assignment_id])
     end
