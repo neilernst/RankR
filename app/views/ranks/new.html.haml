@@ -1,15 +1,54 @@
-.center
-    %table
-        %tr
-            %th= "Team member name"
-            %th= "Rank"
-            %th= "Comment"
-        = form_tag assignment_ranks_path(method: :post) do
-            = hidden_field_tag "ranks[assignment_id]", @assignment.id 
-            - @ranks.each do |rank|
+%div.row
+    %div.col-md-12
+        %h2.text-center Peer Rating of Team Members
+        %p 
+            Please rate the degree to which each team member in your team fulfilled his/her responsibilities in completing the team assignments. 
+            %b FOR EVERY RATING BELOW "SATISFACTORY", PLEASE LEAVE A COMMENT TO HELP US UNDERSTAND CLEARLY. 
+            The possible ratings are as follows:
+
+        %p.text-md-left
+            %b Excellent:
+            Consistently carried more than his/her fair share of the workload.
+        %p.text-md-left
+            %b Very good:
+            Consistently did what he/she was supposed to do, very well prepared and cooperative.
+        %p.text-md-left
+            %b Satisfactory:
+            Usually did what he/she was supposed to do, acceptably prepared and cooperative.
+        %p.text-md-left
+            %b Ordinary:
+            Often did what he/she was supposed to do, minimally prepared and cooperative.
+        %p.text-md-left
+            %b Marginal:
+            Sometimes failed to show up or complete assignments, rarely prepared.
+        %p.text-md-left
+            %b Deficient:
+            Often failed to show up or complete assignments, rarely prepared.
+        %p.text-md-left
+            %b Unsatisfactory:
+            Consistently failed to show up or complete assignments, unprepared.
+        %p.text-md-left
+            %b Superficial:
+            Practically no participation.
+        %p.text-md-left
+            %b No show:
+            No participation at all.
+
+        %table.table.table-borderless.table-responsive-md.table-striped
+            %thead
                 %tr
-                    %td= label_tag @team_members.find(rank.receiver_id).name
-                    %td= select_tag "ranks[ratings][#{rank.receiver_id}]", options_for_select(Rank.ratings.map {|k, v| [k.humanize.capitalize, v]})
-                    %td= text_field_tag "ranks[comments][#{rank.receiver_id}]"
-            %tr
-                %td= submit_tag 'Submit'
+                    %th= "Name of team member"
+                    %th= "Rating"
+                    %th= "Commentary"
+            %tbody
+                %div.form-group
+                    = form_tag assignment_ranks_path(method: :post) do
+                        = hidden_field_tag "ranks[assignment_id]", @assignment.id 
+                        - @ranks.each do |rank|
+                            %tr
+                                %td= label_tag @team_members.find(rank.receiver_id).name
+                                %td= select_tag "ranks[ratings][#{rank.receiver_id}]", options_for_select(Rank.ratings.reverse_each.map {|k, v| [k.humanize.capitalize, v]}), { class: "form-control" }
+                                %td= text_field_tag "ranks[comments][#{rank.receiver_id}]", "",class: "form-control"
+                        %tr
+                            %td{ colspan: "3" }
+                                = submit_tag 'Submit', class: 'btn btn-primary'

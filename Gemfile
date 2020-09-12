@@ -21,6 +21,9 @@ gem 'jbuilder', '~> 2.7'
 gem 'activeadmin'
 gem 'devise'
 
+gem 'bootstrap-sass'
+gem 'active_bootstrap_skin'
+
 gem 'haml'
 gem "haml-rails", "~> 2.0" 
 
