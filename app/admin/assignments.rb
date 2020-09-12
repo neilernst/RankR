@@ -5,7 +5,7 @@ ActiveAdmin.register Assignment do
   #
   # Uncomment all parameters which should be permitted for assignment
   #
-  # permit_params :year, :course, :name, :status, :deadline
+  permit_params :year, :course, :name, :status, :deadline
   #
   # or
   #

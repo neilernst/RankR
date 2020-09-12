@@ -1,1 +1,24 @@
-= link_to "#{@assignment.name}", new_assignment_rank_path(@assignment.id), data: { turbolinks: false }
+%div.row
+    %div.col-md-12
+        %h2.text-center Peer Rating of Team Members
+        %h3 Please click on the button on the corresponding row of the assignment to get started.
+        %table.table.table-responsive-md.table-striped
+            %thead
+                %tr
+                    %th Name
+                    %th Status
+                    %th Action
+            %tbody
+                - @assignments.each do |assignment|
+                    - if assignment.active?
+                        %tr
+                            %td= assignment.name
+                            - if current_student.has_already_ranked_for(assignment.id)
+                                %td
+                                    %span.badge.badge-success Done
+                                %td No action required
+                            - else
+                                %td
+                                    %span.badge.badge-warning Pending
+                                %td= button_to "Rate", new_assignment_rank_path(assignment.id), method: :get, class: 'btn btn-primary', data: { turbolinks: false }
+                        

@@ -19,3 +19,49 @@
 #         github_id: "github.com/student_#{i}" 
 #     )
 # end
+
+CSV.foreach(Rails.root.join('db', 'data', 'teams.csv'), headers: true) do |row|
+    Team.create(team_id: row["team_id"], team_name: row["team_name"])
+end
+
+CSV.foreach(Rails.root.join('db', 'data', 'assignments.csv'), headers: true) do |assignment_row|
+    assignment = Assignment.create(year: assignment_row["year"], course: assignment_row["course"], 
+        name: assignment_row["name"], status: assignment_row["status"])
+end
+
+CSV.foreach(Rails.root.join('db', 'data', 'students.csv'), headers: true) do |row|
+    password = "rankr123"
+    team = Team.find_by(team_id: row["team_id"])
+    team.students.create(
+        email: row["email"], 
+        password: password, 
+        password_confirmation: password,
+        student_id: row["student_id"],
+        name: row["name"],
+        github_id: row["github_id"] 
+    )
+end
+
+Assignment.all.each do |assignment|
+    Student.all.each do |student|
+        AssignmentsStudent.create(assignment_id: assignment.id, student_id: student.id)
+    end
+end
+
+# CSV.foreach(Rails.root.join('db', 'data', 'students.csv'), headers: true) do |row|
+#     password = "rankr123"
+#     team = Team.find_by(team_id: row["team_id"])
+#         team.students.create(
+#         email: row["email"], 
+#         password: password, 
+#         password_confirmation: password,
+#         student_id: row["student_id"],
+#         name: row["name"],
+#         github_id: row["github_id"] 
+#     )
+# end
+
+# Assignment.all.each do |assignment|
+#     students = Student.all
+#     AssignmentsStudent.create
+# end
