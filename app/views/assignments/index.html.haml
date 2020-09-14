@@ -21,4 +21,5 @@
                                 %td
                                     %span.badge.badge-warning Pending
                                 %td= button_to "Rate", new_assignment_rank_path(assignment.id), method: :get, class: 'btn btn-primary', data: { turbolinks: false }
+        = button_to "Log out", destroy_student_session_path, method: :delete, class: 'btn btn-danger', data: { turbolinks: false }
                         

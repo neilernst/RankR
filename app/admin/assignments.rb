@@ -1,10 +1,5 @@
 ActiveAdmin.register Assignment do
 
-  # See permitted parameters documentation:
-  # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
-  #
-  # Uncomment all parameters which should be permitted for assignment
-  #
   permit_params :year, :course, :name, :status, :deadline
   #
   # or
@@ -15,4 +10,10 @@ ActiveAdmin.register Assignment do
   #   permitted
   # end
   
+  show do
+    teams = Team.all
+    ranks = Rank.where(assignment_id: params[:id]).joins(:students).joins(:ranks)
+    render 'teams', { teams: teams, ranks: ranks}
+  end
+
 end

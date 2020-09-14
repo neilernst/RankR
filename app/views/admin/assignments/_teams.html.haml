@@ -1,0 +1,32 @@
+#accordion.panel-group
+    -teams.each do |team|
+        .panel.panel-default
+        .panel-heading
+            %h4.panel-title
+            %a{"data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapse#{team.team_id}"}
+                %h4= team.team_name
+        %div{id: "collapse#{team.team_id}", class: "panel-collapse collapse"}
+            .panel-body
+            %table.table.table-responsive-md.table-striped
+                %thead
+                    %tr
+                        %th 
+                        - for i in 1..team.students.length()
+                            %th= "Vote #{i}"
+                        %th Indiv. Avg.
+                        %th Team Avg.
+                        %th Adj. Fctr.
+                        %th Indiv. Proj. Grade
+                        %th Adj Factor Cap
+                        %th Grades
+                %tbody
+                    - team.students.each do |student|
+                        %tr
+                            %td= student.name
+                            - student.received_ranks.each do |rank|
+                                %td= rank.rating.humanize
+                            - for i in 1..(team.students.length() - student.received_ranks.length())
+                                %td= "Not ranked"
+                            
+                
+                    

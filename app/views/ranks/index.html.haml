@@ -5,3 +5,4 @@
 
 .center
     %h1 Thank you for participating
+    = button_to "Log out", destroy_student_session_path, method: :delete, class: 'btn btn-danger', data: { turbolinks: false }
