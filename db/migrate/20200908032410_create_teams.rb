@@ -4,6 +4,7 @@ class CreateTeams < ActiveRecord::Migration[6.0]
 
       t.string :team_id, null: false
       t.string :team_name
+      t.float :team_average
 
       t.timestamps
     end
