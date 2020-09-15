@@ -15,10 +15,10 @@ ActiveAdmin.register Assignment do
     ranks = Rank.where(assignment_id: params[:id]).joins(:students).joins(:ranks)
     assignment = Assignment.find(params[:id])
     teams.each do |team|
-      team.calculate_team_average(assignment.id)
       team.students do |student|
         AssignmentsStudent.calculate_score(student.id, assignment.id)
       end
+      team.calculate_team_average(assignment.id)
     end
     render 'teams', {
       teams: teams, ranks: ranks, 
