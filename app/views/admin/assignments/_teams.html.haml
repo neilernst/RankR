@@ -1,4 +1,5 @@
 = button_to "Recalculate Scores", assignment_path(assignment.id), method: :get, class: "btn btn-primary"
+
 %br
 #accordion.panel-group
     -teams.each do |team|
@@ -16,8 +17,8 @@
                                 %th Student Name
                                 - for i in 1..team.students.length()
                                     %th= "Vote #{i}"
-                                %th Indiv. Avg.
-                                %th Team Avg.
+                                %th Individual Avgerage
+                                %th Team Average
                                 %th Adj. Fctr.
                                 %th Adj Factor Cap
                                 %th Individual Project Grade
@@ -27,16 +28,16 @@
                                 %tr
                                     %td= student.student_id
                                     %td= student.name
-                                    - student.received_ranks.each do |rank|
+                                    - student.received_ranks.where(assignment_id: assignment.id).each do |rank|
                                         %td= rank.rating.humanize
-                                    - for i in 1..(team.students.length() - student.received_ranks.length())
+                                    - for i in 1..(team.students.length() - student.received_ranks.where(assignment_id: assignment.id).length())
                                         %td= "N/A"
                                     %td= assignment.assignments_students.find_by(student_id: student.id).individual_average
                                     %td= team.team_average
                                     %td= assignment.assignments_students.find_by(student_id: student.id).adjustment_factor
                                     %td= assignment.adjustment_factor_cap
                                     %td= assignment.assignments_students.find_by(student_id: student.id).individual_project_grade
-                                    
+                        
 
                             
                 

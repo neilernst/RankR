@@ -13,14 +13,8 @@ ActiveAdmin.register Assignment do
   
   show do
     teams = Team.all
-    ranks = Rank.where(assignment_id: params[:id]).joins(:students).joins(:ranks)
     assignment = Assignment.find(params[:id])
-    # teams.each do |team|
-    #   team.students.each do |student|
-    #     AssignmentsStudent.calculate_score(student.id, assignment.id)
-    #   end
-    #   team = team.calculate_team_average(assignment.id)
-    # end
+    ranks = assignment.ranks
     render 'teams', {
       teams: teams, ranks: ranks, 
       assignment: assignment
