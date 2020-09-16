@@ -7,7 +7,7 @@ class Team < ApplicationRecord
             av = student.assignments_students.find_by(assignment_id: assignment_id).individual_average
             sum += av if av.present?
         end
-        team_average = sum / self.students.length()
+        team_average = sum == 0 ? 0 : (sum / self.students.length()).round(2)
         self.update(team_average: team_average)
         return self
     end

@@ -46,6 +46,7 @@ ActiveRecord::Schema.define(version: 2020_09_11_195837) do
     t.string "course"
     t.string "name"
     t.integer "status"
+    t.float "adjustment_factor_cap"
     t.datetime "deadline"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -57,7 +58,6 @@ ActiveRecord::Schema.define(version: 2020_09_11_195837) do
     t.float "individual_average"
     t.float "adjustment_factor"
     t.float "individual_project_grade"
-    t.float "adjustment_factor_cap"
     t.float "grade"
     t.string "rank"
     t.datetime "created_at", precision: 6, null: false

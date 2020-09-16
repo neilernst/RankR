@@ -5,6 +5,7 @@ class CreateAssignments < ActiveRecord::Migration[6.0]
       t.string :course
       t.string :name
       t.integer :status
+      t.float :adjustment_factor_cap
       t.datetime :deadline
       t.timestamps
     end

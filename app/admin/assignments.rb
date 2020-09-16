@@ -1,6 +1,7 @@
 ActiveAdmin.register Assignment do
 
-  permit_params :year, :course, :name, :status, :deadline
+  permit_params :year, :course, :name, :status, 
+  :adjustment_factor_cap, :deadline
   #
   # or
   #
@@ -14,12 +15,12 @@ ActiveAdmin.register Assignment do
     teams = Team.all
     ranks = Rank.where(assignment_id: params[:id]).joins(:students).joins(:ranks)
     assignment = Assignment.find(params[:id])
-    teams.each do |team|
-      team.students do |student|
-        AssignmentsStudent.calculate_score(student.id, assignment.id)
-      end
-      team.calculate_team_average(assignment.id)
-    end
+    # teams.each do |team|
+    #   team.students.each do |student|
+    #     AssignmentsStudent.calculate_score(student.id, assignment.id)
+    #   end
+    #   team = team.calculate_team_average(assignment.id)
+    # end
     render 'teams', {
       teams: teams, ranks: ranks, 
       assignment: assignment
