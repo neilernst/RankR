@@ -14,4 +14,8 @@ class Student < ApplicationRecord
   def has_already_ranked_for(assignment_id)
     self.authored_ranks.where(assignment_id: assignment_id).exists?
   end
+
+  def can_rank?(receiver_id)
+    self.team.students.pluck(:id).include? receiver_id.to_i
+  end
 end

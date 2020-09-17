@@ -1,11 +1,7 @@
 class RanksController < ApplicationController
     before_action :authenticate_student!
 
-    def index
-        # @team_members = current_student.team.students
-        # @given_ranks = Rank.where(ranker_id: current_student.id)
-        # @assignment = Assignment.find(params[:assignment_id])
-    end
+    def index; end
 
     def new
         if current_student.has_already_ranked_for(params[:assignment_id])
@@ -23,17 +19,20 @@ class RanksController < ApplicationController
     end
 
     def create
-        @params = ranks_params
-        @params[:ratings].each do |receiver_id, rank|
-            Rank.create(
-                assignment_id: @params[:assignment_id], 
-                ranker_id: current_student.id,
-                receiver_id: receiver_id, 
-                rating: rank.to_i, 
-                comment: @params[:comments][receiver_id]
-            )
+        unless current_student.has_already_ranked_for(ranks_params[:assignment_id])
+            ranks_params[:ratings].each do |receiver_id, rank|
+                if current_student.can_rank?(receiver_id)
+                    Rank.create(
+                        assignment_id: ranks_params[:assignment_id], 
+                        ranker_id: current_student.id,
+                        receiver_id: receiver_id, 
+                        rating: rank.to_i, 
+                        comment: ranks_params[:comments][receiver_id]
+                    )
+                end
+            end
         end
-        redirect_to assignment_ranks_path(@params[:assignment_id])
+        redirect_to assignment_ranks_path(ranks_params[:assignment_id])
     end
 
     private
