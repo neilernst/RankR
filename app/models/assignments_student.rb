@@ -23,7 +23,7 @@ class AssignmentsStudent < ApplicationRecord
         ratings.each do |rating|
             sum += GRADES[rating]
         end
-        individual_average = sum == 0 ? 0 : (sum / ratings.length()).round(2)
+        individual_average = sum == 0 ? 0 : (sum / ratings.length())&.round(2)
         grade.update(individual_average: individual_average)
         return grade
     end
@@ -31,16 +31,20 @@ class AssignmentsStudent < ApplicationRecord
     def self.calculate_adjustment_factor(grade)
         adj_fac_cap = grade.assignment.adjustment_factor_cap
         team_avg = grade.student.team.team_average
-        adj_factor = (grade.individual_average / team_avg).round(2)
-        adj_factor = adj_factor > adj_fac_cap ? adj_factor : adj_fac_cap
-        grade.update(adjustment_factor: adj_factor)
+        if grade.individual_average && team_avg && adj_fac_cap
+            adj_factor = (grade.individual_average / team_avg)&.round(2)
+            adj_factor = adj_factor > adj_fac_cap ? adj_factor : adj_fac_cap
+            grade.update(adjustment_factor: adj_factor)
+        end
         return grade
     end
 
     def self.calculate_individual_project_grade(grade)
-        ind_proj_grade = (grade.individual_average * grade.adjustment_factor).round(2)
-        ind_proj_grade = ind_proj_grade > 100 ? 100 : ind_proj_grade
-        grade.update(individual_project_grade: ind_proj_grade)
+        if grade.individual_average && grade.adjustment_factor
+            ind_proj_grade = (grade.individual_average * grade.adjustment_factor)&.round(2)
+            ind_proj_grade = ind_proj_grade > 100 ? 100 : ind_proj_grade
+            grade.update(individual_project_grade: ind_proj_grade)
+        end
         return grade
     end
 end

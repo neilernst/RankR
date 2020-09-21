@@ -20,14 +20,24 @@
 #     )
 # end
 
+CSV.foreach(Rails.root.join('db', 'data', 'adminusers.csv'), headers: true) do |row|
+    AdminUser.create(email: row["email"], password: row["password"], password_confirmation: row["password_confirmation"])
+end
+
+puts("Admins created!")
+
 CSV.foreach(Rails.root.join('db', 'data', 'teams.csv'), headers: true) do |row|
     Team.create(team_id: row["team_id"], team_name: row["team_name"])
 end
+
+puts("Teams created!")
 
 CSV.foreach(Rails.root.join('db', 'data', 'assignments.csv'), headers: true) do |assignment_row|
     assignment = Assignment.create(year: assignment_row["year"], course: assignment_row["course"], 
         name: assignment_row["name"], status: assignment_row["status"])
 end
+
+puts("Assignments created!")
 
 CSV.foreach(Rails.root.join('db', 'data', 'students.csv'), headers: true) do |row|
     password = "rankr123"
@@ -42,11 +52,15 @@ CSV.foreach(Rails.root.join('db', 'data', 'students.csv'), headers: true) do |ro
     )
 end
 
+puts("Students created!")
+
 Assignment.all.each do |assignment|
     Student.all.each do |student|
         AssignmentsStudent.create(assignment_id: assignment.id, student_id: student.id)
     end
 end
+
+puts("Student assignment enrollment complete!")
 
 # CSV.foreach(Rails.root.join('db', 'data', 'students.csv'), headers: true) do |row|
 #     password = "rankr123"
