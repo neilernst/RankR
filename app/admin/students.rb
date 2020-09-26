@@ -20,6 +20,7 @@ ActiveAdmin.register Student do
     column :name
     column :student_id
     column :email
+    column :raw_password
     column "Reset password link" do |student|
       edit_password_url(student, reset_password_token: student.password_reset_token) 
     end

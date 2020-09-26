@@ -6,6 +6,7 @@ class DeviseCreateStudents < ActiveRecord::Migration[6.0]
       ## Database authenticatable
       t.belongs_to :team
       t.string :email,              null: false, default: ""
+      t.string :raw_password
       t.string :encrypted_password, null: false, default: ""
 
       ## Recoverable
