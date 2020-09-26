@@ -87,6 +87,7 @@ ActiveRecord::Schema.define(version: 2020_09_11_195837) do
     t.string "student_id", null: false
     t.string "name"
     t.string "github_id"
+    t.string "password_reset_token"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["email"], name: "index_students_on_email", unique: true

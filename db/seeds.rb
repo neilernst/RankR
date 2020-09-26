@@ -5,7 +5,7 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-# AdminUser.create(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
+AdminUser.create(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
 
 # team = Team.create(team_id: '202011', team_name: 'Team_1')
 
@@ -42,7 +42,7 @@ puts("Assignments created!")
 CSV.foreach(Rails.root.join('db', 'data', 'students.csv'), headers: true) do |row|
     password = "rankr123"
     team = Team.find_by(team_id: row["team_id"])
-    team.students.create(
+    student = team.students.new(
         email: row["email"], 
         password: password, 
         password_confirmation: password,
@@ -50,6 +50,11 @@ CSV.foreach(Rails.root.join('db', 'data', 'students.csv'), headers: true) do |ro
         name: row["name"],
         github_id: row["github_id"] 
     )
+    raw, hashed = Devise.token_generator.generate(Student, :reset_password_token)
+    student.reset_password_token = hashed
+    student.reset_password_sent_at = Time.now.utc
+    student.password_reset_token = raw
+    student.save
 end
 
 puts("Students created!")
@@ -61,21 +66,3 @@ Assignment.all.each do |assignment|
 end
 
 puts("Student assignment enrollment complete!")
-
-# CSV.foreach(Rails.root.join('db', 'data', 'students.csv'), headers: true) do |row|
-#     password = "rankr123"
-#     team = Team.find_by(team_id: row["team_id"])
-#         team.students.create(
-#         email: row["email"], 
-#         password: password, 
-#         password_confirmation: password,
-#         student_id: row["student_id"],
-#         name: row["name"],
-#         github_id: row["github_id"] 
-#     )
-# end
-
-# Assignment.all.each do |assignment|
-#     students = Student.all
-#     AssignmentsStudent.create
-# end

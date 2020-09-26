@@ -18,7 +18,7 @@ class DeviseCreateStudents < ActiveRecord::Migration[6.0]
       t.string :student_id, null: false
       t.string :name
       t.string :github_id
-
+      t.string :password_reset_token
 
       ## Trackable
       # t.integer  :sign_in_count, default: 0, null: false

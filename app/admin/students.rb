@@ -15,4 +15,14 @@ ActiveAdmin.register Student do
   #   permitted
   # end
   
+  index do
+    selectable_column
+    column :name
+    column :student_id
+    column :email
+    column "Reset password link" do |student|
+      edit_password_url(student, reset_password_token: student.password_reset_token) 
+    end
+  end
+
 end
