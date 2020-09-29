@@ -14,6 +14,14 @@ ActiveAdmin.register Student do
   #   permitted << :other if params[:action] == 'create' && current_user.admin?
   #   permitted
   # end
+
+  filter :team, collection: -> {
+    Team.all.map { |team| [team.team_name, team.id] }
+  }
+
+  filter :email
+  filter :student_id
+  filter :name
   
   index do
     selectable_column
