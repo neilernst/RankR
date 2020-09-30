@@ -18,4 +18,8 @@ class Student < ApplicationRecord
   def can_rank?(receiver_id)
     self.team.students.pluck(:id).include? receiver_id.to_i
   end
+
+  def has_not_ranked_for(assignment_id)
+    !self.authored_ranks.where(assignment_id: assignment_id).exists?
+  end
 end

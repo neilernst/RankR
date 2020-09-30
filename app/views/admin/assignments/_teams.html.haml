@@ -37,7 +37,26 @@
                                     %td= assignment.assignments_students.find_by(student_id: student.id).adjustment_factor
                                     %td= assignment.adjustment_factor_cap
                                     %td= assignment.assignments_students.find_by(student_id: student.id).individual_project_grade
-                        
+                    - if (team.students.length() - team.students.first.received_ranks.where(assignment_id: assignment.id).length()) > 0
+                        %h4 Students yet to submit peer review
+                        %table.table.table-responsive-md.table-striped
+                            %thead
+                                %tr 
+                                    %th Student Id
+                                    %th Student name
+                                    %th Email
+                            %tbody
+                                - team.students.each do |student|
+                                    - if student.has_not_ranked_for(assignment.id)
+                                        %tr 
+                                            %td= student.student_id
+                                            %td= student.name
+                                            %td= student.email
+                    - else
+                        %h4 All students from this group have submitted peer review
+
+
+                                  
 
                             
                 
