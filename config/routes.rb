@@ -14,4 +14,6 @@ Rails.application.routes.draw do
   resources :assignments, only: [:index, :show] do
     resources :ranks, only: [:index, :new, :create] 
   end
+
+  resources :ranks, only: :show
 end
