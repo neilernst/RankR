@@ -1,6 +1,6 @@
 class Student < ApplicationRecord
 
-  belongs_to :team
+  belongs_to :team, dependent: :destroy
   has_many :authored_ranks, class_name: 'Rank', foreign_key: :ranker_id, dependent: :destroy
   has_many :received_ranks, class_name: 'Rank', foreign_key: :receiver_id, dependent: :destroy
   has_and_belongs_to_many :assignments, dependent: :destroy

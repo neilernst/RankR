@@ -1,5 +1,5 @@
 class Team < ApplicationRecord
-    has_many :students
+    has_many :students, dependent: :destroy
 
     def calculate_team_average(assignment_id)
         sum = 0

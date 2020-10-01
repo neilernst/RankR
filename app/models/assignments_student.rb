@@ -1,6 +1,6 @@
 class AssignmentsStudent < ApplicationRecord
-    belongs_to :student
-    belongs_to :assignment
+    belongs_to :student, dependent: :destroy
+    belongs_to :assignment, dependent: :destroy
 
     GRADES = {
         "excellent" => 100, "very_good" => 87.5, "satisfactory" => 75, "ordinary" => 62.5,
