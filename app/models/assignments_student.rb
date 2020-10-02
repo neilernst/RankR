@@ -33,7 +33,7 @@ class AssignmentsStudent < ApplicationRecord
         team_avg = grade.student.team.team_average
         if grade.individual_average && team_avg && adj_fac_cap
             adj_factor = (grade.individual_average / team_avg)&.round(2)
-            adj_factor = adj_factor > adj_fac_cap ? adj_factor : adj_fac_cap
+            adj_factor = adj_factor > adj_fac_cap ? adj_fac_cap : adj_factor
             grade.update(adjustment_factor: adj_factor)
         end
         return grade
