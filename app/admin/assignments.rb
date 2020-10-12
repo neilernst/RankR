@@ -1,7 +1,7 @@
 ActiveAdmin.register Assignment do
 
   permit_params :year, :course, :name, :status, 
-  :adjustment_factor_cap, :deadline
+  :adjustment_factor_cap, :deadline, :full_grade
   #
   # or
   #
