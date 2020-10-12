@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_11_195837) do
+ActiveRecord::Schema.define(version: 2020_10_12_210412) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,6 +50,7 @@ ActiveRecord::Schema.define(version: 2020_09_11_195837) do
     t.datetime "deadline"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.float "full_grade", default: 0.0
   end
 
   create_table "assignments_students", force: :cascade do |t|
@@ -62,6 +63,7 @@ ActiveRecord::Schema.define(version: 2020_09_11_195837) do
     t.string "rank"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.float "individual_grade", default: 0.0
     t.index ["assignment_id"], name: "index_assignments_students_on_assignment_id"
     t.index ["student_id"], name: "index_assignments_students_on_student_id"
   end
@@ -80,6 +82,7 @@ ActiveRecord::Schema.define(version: 2020_09_11_195837) do
   create_table "students", force: :cascade do |t|
     t.bigint "team_id"
     t.string "email", default: "", null: false
+    t.string "raw_password"
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
@@ -87,6 +90,7 @@ ActiveRecord::Schema.define(version: 2020_09_11_195837) do
     t.string "student_id", null: false
     t.string "name"
     t.string "github_id"
+    t.string "password_reset_token"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["email"], name: "index_students_on_email", unique: true
@@ -100,6 +104,7 @@ ActiveRecord::Schema.define(version: 2020_09_11_195837) do
     t.float "team_average"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.float "team_grade", default: 0.0
   end
 
 end

@@ -14,6 +14,7 @@ class AssignmentsStudent < ApplicationRecord
         grade = self.calculate_individual_average(grade)
         grade = self.calculate_adjustment_factor(grade)
         grade = self.calculate_individual_project_grade(grade)
+        grade = self.calculate_individual_grade(grade)
         return self.find_by(assignment_id: assignment_id, student_id: student_id)
     end
 
@@ -41,6 +42,13 @@ class AssignmentsStudent < ApplicationRecord
         ind_proj_grade = (grade.individual_average * grade.adjustment_factor).round(2)
         ind_proj_grade = ind_proj_grade > 100 ? 100 : ind_proj_grade
         grade.update(individual_project_grade: ind_proj_grade)
+        return grade
+    end
+
+    def self.calculate_individual_grade(grade)
+        ind_grade = (grade.student.team.team_grade * grade.adjustment_factor).round(2)
+        ind_grade = ind_grade > grade.assignment.full_grade ? grade.assignment.full_grade : ind_grade
+        grade.update(individual_grade: ind_grade)
         return grade
     end
 end
