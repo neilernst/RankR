@@ -15,9 +15,10 @@ ActiveAdmin.register Student do
   #   permitted
   # end
 
-  permit_params :student_id, :name, :email
+  permit_params :team_id, :student_id, :name, :email
 
   form do |f|
+    input :team_id
     input :student_id
     input :name
     input :email
