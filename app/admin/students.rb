@@ -15,6 +15,15 @@ ActiveAdmin.register Student do
   #   permitted
   # end
 
+  permit_params :student_id, :name, :email
+
+  form do |f|
+    input :student_id
+    input :name
+    input :email
+    actions
+  end
+
   filter :team, collection: -> {
     Team.all.map { |team| [team.team_name, team.id] }
   }
