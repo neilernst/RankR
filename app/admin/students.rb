@@ -23,6 +23,8 @@ ActiveAdmin.register Student do
   filter :student_id
   filter :name
   
+  actions :all
+
   index do
     selectable_column
     column :name
@@ -31,6 +33,13 @@ ActiveAdmin.register Student do
     column :raw_password
     column "Reset password link" do |student|
       edit_password_url(student, reset_password_token: student.password_reset_token) 
+    end
+    column :actions do |student|
+      links = []
+      links << link_to('Show', admin_student_path(student))
+      links << link_to('Edit', edit_admin_student_path(student))
+      links << link_to('Delete', admin_student_path(student), method: :delete, confirm: 'Are you sure?')
+      links.join(' ').html_safe
     end
   end
 
