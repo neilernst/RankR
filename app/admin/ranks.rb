@@ -12,16 +12,16 @@ ActiveAdmin.register Rank do
   index do
     selectable_column
     column "Assignment" do |rank|
-      rank.assignment.name.humanize 
+      rank.assignment&.name.humanize 
     end
     column "Ranker" do |rank|
-      rank.ranker.name 
+      rank.ranker&.name 
     end
     column "Receiver" do |rank|
-      rank.receiver.name 
+      rank.receiver&.name 
     end
     column "Rating" do |rank|
-      rank.rating.humanize
+      rank.rating&.humanize
     end
     column "Comment" do |rank|
       rank.comment&.humanize
