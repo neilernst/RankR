@@ -1,6 +1,6 @@
 class AssignmentsStudent < ApplicationRecord
-    belongs_to :student, dependent: :destroy
-    belongs_to :assignment, dependent: :destroy
+    belongs_to :student
+    belongs_to :assignment
 
     GRADES = {
         "excellent" => 100, "very_good" => 87.5, "satisfactory" => 75, "ordinary" => 62.5,
@@ -20,7 +20,7 @@ class AssignmentsStudent < ApplicationRecord
 
     def self.calculate_individual_average(grade)
         sum = 0
-        ratings = grade.student.received_ranks.pluck(:rating)
+        ratings = grade.student.received_ranks.where(assignment_id: grade.assignment_id).pluck(:rating)
         ratings.each do |rating|
             sum += GRADES[rating]
         end
@@ -50,9 +50,11 @@ class AssignmentsStudent < ApplicationRecord
     end
 
     def self.calculate_individual_grade(grade)
-        ind_grade = (grade.student.team.team_grade * grade.adjustment_factor).round(2)
-        ind_grade = ind_grade > grade.assignment.full_grade ? grade.assignment.full_grade : ind_grade
-        grade.update(individual_grade: ind_grade)
+        if grade.student.team.team_grade && grade.adjustment_factor
+            ind_grade = (grade.student.team.team_grade * grade.adjustment_factor)&.round(2)
+            ind_grade = ind_grade > grade.assignment.full_grade ? grade.assignment.full_grade : ind_grade
+            grade.update(individual_grade: ind_grade)
+        end
         return grade
     end
 end
