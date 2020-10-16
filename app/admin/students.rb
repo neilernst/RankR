@@ -48,7 +48,6 @@ ActiveAdmin.register Student do
       links = []
       links << link_to('Show', admin_student_path(student))
       links << link_to('Edit', edit_admin_student_path(student))
-      links << link_to('Delete', admin_student_path(student), method: :delete, confirm: 'Are you sure?')
       links.join(' ').html_safe
     end
   end

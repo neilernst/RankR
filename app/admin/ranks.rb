@@ -12,7 +12,7 @@ ActiveAdmin.register Rank do
   index do
     selectable_column
     column "Assignment" do |rank|
-      rank.assignment&.name.humanize 
+      rank.assignment&.name&.humanize 
     end
     column "Ranker" do |rank|
       rank.ranker&.name 
@@ -30,7 +30,6 @@ ActiveAdmin.register Rank do
       links = []
       links << link_to('Show', admin_rank_path(student))
       links << link_to('Edit', edit_admin_rank_path(student))
-      links << link_to('Delete', admin_rank_path(student), method: :delete, confirm: 'Are you sure?')
       links.join(' ').html_safe
     end
   end
