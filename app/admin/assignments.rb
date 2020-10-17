@@ -12,7 +12,7 @@ ActiveAdmin.register Assignment do
   # end
   
   show do
-    teams = Team.all
+    teams = Team.all.order(team_id: :asc)
     assignment = Assignment.find(params[:id])
     ranks = assignment.ranks
     render 'teams', {

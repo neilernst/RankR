@@ -37,44 +37,12 @@ class RanksController < ApplicationController
     end
 
     def show
-        teams = Team.all
-        assignment = Assignment.find(params[:id])
-        ranks = assignment.ranks
-        csv = []
-        teams.each do |team|
-            csv << [team.team_name]
-            headers = ["Student Id", "Student Name"]
-            for i in 1..team.students.length()
-                headers.push("Vote #{i}")
-            end
-            headers.push("Individual Avgerage", "Team Average", "Adj. Fctr.", "Adj Factor Cap", "Individual Project Grade")
-            csv << headers
-            team.students.each do |student|
-                row = []
-                row.push(student.student_id, student.name)
-                student.received_ranks.where(assignment_id: assignment.id).each do |rank|
-                    row.push(rank.rating.humanize)
-                end
-                for i in 1..(team.students.length() - student.received_ranks.where(assignment_id: assignment.id).length())
-                    row.push("N/A")
-                end
-                row.push(
-                    assignment.assignments_students.find_by(student_id: student.id).individual_average,
-                    team.team_average,
-                    assignment.assignments_students.find_by(student_id: student.id).adjustment_factor,
-                    assignment.adjustment_factor_cap,
-                    assignment.assignments_students.find_by(student_id: student.id).individual_project_grade
-                )
-                csv << row
-            end
-        end
-        file = csv.to_csv
-        # File.write("#{assignment.name}", file)
+        @students = Student.all.order(:name)
+        @assignment = Assignment.find(params[:id])
         respond_to do |format|
-            format.html {redirect_to admin_assignment_url(assignment.id)}
-            format.csv { render :csv => csv.to_csv }
+            format.html
+            format.csv { send_data generate_csv_data }
         end
-        
     end
 
     private
@@ -82,4 +50,17 @@ class RanksController < ApplicationController
     def ranks_params
         params.require(:ranks).permit!
     end
+
+    def generate_csv_data(template = nil)
+        template ||= "ranks/show.html.haml"
+        content = render_to_string(template)
+        doc =  Nokogiri::HTML(content)
+      
+        table =  doc.at_css('table')
+        data = table.css('tr').map do |r|
+          r.css('td,th').map(&:text).to_csv
+        end.join
+        
+        data = data.encode('GBK', undef: :replace, replace: "")
+      end
 end
