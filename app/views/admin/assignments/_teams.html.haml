@@ -1,5 +1,7 @@
+
 = button_to "Recalculate Scores", assignment_path(assignment.id), method: :get, class: "btn btn-primary"
-= button_to "Export to CSV", rank_path(assignment.id, format: "csv"), method: :get, class: 'btn btn-primary'
+%br
+= button_to "Export to CSV", rank_path(assignment.id, format: "csv"), method: :get, class: "btn btn-success"
 %br
 #accordion.panel-group
     -teams.each do |team|
