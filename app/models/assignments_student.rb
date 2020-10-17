@@ -1,6 +1,6 @@
 class AssignmentsStudent < ApplicationRecord
-    belongs_to :student, dependent: :destroy
-    belongs_to :assignment, dependent: :destroy
+    belongs_to :student
+    belongs_to :assignment
 
     GRADES = {
         "excellent" => 100, "very_good" => 87.5, "satisfactory" => 75, "ordinary" => 62.5,
@@ -14,12 +14,13 @@ class AssignmentsStudent < ApplicationRecord
         grade = self.calculate_individual_average(grade)
         grade = self.calculate_adjustment_factor(grade)
         grade = self.calculate_individual_project_grade(grade)
+        grade = self.calculate_individual_grade(grade)
         return self.find_by(assignment_id: assignment_id, student_id: student_id)
     end
 
     def self.calculate_individual_average(grade)
         sum = 0
-        ratings = grade.student.received_ranks.pluck(:rating)
+        ratings = grade.student.received_ranks.where(assignment_id: grade.assignment_id).pluck(:rating)
         ratings.each do |rating|
             sum += GRADES[rating]
         end
@@ -33,7 +34,7 @@ class AssignmentsStudent < ApplicationRecord
         team_avg = grade.student.team.team_average
         if grade.individual_average && team_avg && adj_fac_cap
             adj_factor = (grade.individual_average / team_avg)&.round(2)
-            adj_factor = adj_factor > adj_fac_cap ? adj_factor : adj_fac_cap
+            adj_factor = adj_factor > adj_fac_cap ? adj_fac_cap : adj_factor
             grade.update(adjustment_factor: adj_factor)
         end
         return grade
@@ -44,6 +45,15 @@ class AssignmentsStudent < ApplicationRecord
             ind_proj_grade = (grade.individual_average * grade.adjustment_factor)&.round(2)
             ind_proj_grade = ind_proj_grade > 100 ? 100 : ind_proj_grade
             grade.update(individual_project_grade: ind_proj_grade)
+        end
+        return grade
+    end
+
+    def self.calculate_individual_grade(grade)
+        if grade.student.team.team_grade && grade.adjustment_factor
+            ind_grade = (grade.student.team.team_grade * grade.adjustment_factor)&.round(2)
+            ind_grade = ind_grade > grade.assignment.full_grade ? grade.assignment.full_grade : ind_grade
+            grade.update(individual_grade: ind_grade)
         end
         return grade
     end

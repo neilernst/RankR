@@ -19,9 +19,11 @@
                                     %th= "Vote #{i}"
                                 %th Individual Avgerage
                                 %th Team Average
-                                %th Adj. Fctr.
                                 %th Adj Factor Cap
                                 %th Individual Project Grade
+                                %th Adj. Fctr.
+                                %th Team Grade
+                                %th Individual Grade
                                 
                         %tbody
                             - team.students.each do |student|
@@ -34,9 +36,12 @@
                                         %td= "N/A"
                                     %td= assignment.assignments_students.find_by(student_id: student.id).individual_average
                                     %td= team.team_average
-                                    %td= assignment.assignments_students.find_by(student_id: student.id).adjustment_factor
                                     %td= assignment.adjustment_factor_cap
                                     %td= assignment.assignments_students.find_by(student_id: student.id).individual_project_grade
+                                    %td= assignment.assignments_students.find_by(student_id: student.id).adjustment_factor
+                                    %td= team.team_grade
+                                    %td= assignment.assignments_students.find_by(student_id: student.id).individual_grade
+                        
                     - if (team.students.length() - team.students.first.received_ranks.where(assignment_id: assignment.id).length()) > 0
                         %h4 Students yet to submit peer review
                         %table.table.table-responsive-md.table-striped
@@ -54,10 +59,6 @@
                                             %td= student.email
                     - else
                         %h4 All students from this group have submitted peer review
-
-
-                                  
-
                             
                 
                     
