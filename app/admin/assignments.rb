@@ -1,7 +1,7 @@
 ActiveAdmin.register Assignment do
 
   permit_params :year, :course, :name, :status, 
-  :adjustment_factor_cap, :deadline
+  :adjustment_factor_cap, :deadline, :full_grade
   #
   # or
   #
@@ -12,7 +12,7 @@ ActiveAdmin.register Assignment do
   # end
   
   show do
-    teams = Team.all
+    teams = Team.all.order(team_id: :asc)
     assignment = Assignment.find(params[:id])
     ranks = assignment.ranks
     render 'teams', {

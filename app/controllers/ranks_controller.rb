@@ -1,5 +1,6 @@
 class RanksController < ApplicationController
-    before_action :authenticate_student!
+    before_action :authenticate_student!, only: [:new, :create]
+    before_action :authenticate_admin_user!, only: :show
 
     def index; end
 
@@ -35,9 +36,31 @@ class RanksController < ApplicationController
         redirect_to assignment_ranks_path(ranks_params[:assignment_id])
     end
 
+    def show
+        @students = Student.all.order(:name)
+        @assignment = Assignment.find(params[:id])
+        respond_to do |format|
+            format.html
+            format.csv { send_data generate_csv_data }
+        end
+    end
+
     private
 
     def ranks_params
         params.require(:ranks).permit!
     end
+
+    def generate_csv_data(template = nil)
+        template ||= "ranks/show.html.haml"
+        content = render_to_string(template)
+        doc =  Nokogiri::HTML(content)
+      
+        table =  doc.at_css('table')
+        data = table.css('tr').map do |r|
+          r.css('td,th').map(&:text).to_csv
+        end.join
+        
+        data = data.encode('GBK', undef: :replace, replace: "")
+      end
 end

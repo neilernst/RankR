@@ -1,6 +1,6 @@
 class Student < ApplicationRecord
 
-  belongs_to :team
+  belongs_to :team, dependent: :destroy
   has_many :authored_ranks, class_name: 'Rank', foreign_key: :ranker_id, dependent: :destroy
   has_many :received_ranks, class_name: 'Rank', foreign_key: :receiver_id, dependent: :destroy
   has_and_belongs_to_many :assignments, dependent: :destroy
@@ -17,5 +17,9 @@ class Student < ApplicationRecord
 
   def can_rank?(receiver_id)
     self.team.students.pluck(:id).include? receiver_id.to_i
+  end
+
+  def has_not_ranked_for(assignment_id)
+    !self.authored_ranks.where(assignment_id: assignment_id).exists?
   end
 end

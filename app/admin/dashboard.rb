@@ -4,7 +4,7 @@ ActiveAdmin.register_page "Dashboard" do
   content title: proc { I18n.t("active_admin.dashboard") } do
     
     teams = Team.all
-    assignments = Assignment.all.order(id: :asc)
+    assignments = Assignment.all.order(name: :asc)
     render 'main', {
       assignments: assignments
     }

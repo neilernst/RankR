@@ -1,0 +1,26 @@
+%table.table.table-responsive-md.table-striped
+    %thead
+        %tr
+            %th Student Id
+            %th Student Name
+            - for i in 1..6
+                %th= "Vote #{i}"
+            %th Individual Avgerage
+            %th Adj Factor Cap
+            %th Individual Project Grade
+            %th Adj. Fctr.
+            %th Individual Grade
+    - @students.each do |student|        
+        %tbody
+            %tr
+                %td= student.student_id
+                %td= student.name
+                - student.received_ranks.where(assignment_id: @assignment.id).each do |rank|
+                    %td= rank.rating.humanize
+                - for i in 1..(6 - student.received_ranks.where(assignment_id: @assignment.id).length())
+                    %td= "N/A"
+                %td= @assignment.assignments_students.find_by(student_id: student.id).individual_average
+                %td= @assignment.adjustment_factor_cap
+                %td= @assignment.assignments_students.find_by(student_id: student.id).individual_project_grade
+                %td= @assignment.assignments_students.find_by(student_id: student.id).adjustment_factor
+                %td= @assignment.assignments_students.find_by(student_id: student.id).individual_grade
